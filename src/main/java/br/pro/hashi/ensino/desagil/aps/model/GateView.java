@@ -16,7 +16,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private final JCheckBox input1;
     private final JCheckBox input2;
     private final JCheckBox output;
-    private final Image image;
+    //private final Image image;
 
     public GateView(Gate gate) {
 
@@ -45,9 +45,9 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         add(output, 85, 311, 120, 25);
 
         // Usamos esse carregamento nos Desafios, vocês lembram?
-        String name = gate.toString() + ".png";
-        URL url = getClass().getClassLoader().getResource(name);
-        image = getToolkit().getImage(url);
+        //String name = gate.toString() + ".png";
+        //URL url = getClass().getClassLoader().getResource(name);
+        //image = getToolkit().getImage(url);
 
         // Toda componente Swing tem uma lista de observadores
         // que reagem quando algum evento de mouse acontece.
