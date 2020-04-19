@@ -1,6 +1,7 @@
-package br.pro.hashi.ensino.desagil.aps.model;
+package br.pro.hashi.ensino.desagil.aps.view;
 
 import br.pro.hashi.ensino.desagil.aps.model.Gate;
+import br.pro.hashi.ensino.desagil.aps.view.FixedPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private final JCheckBox input1;
     private final JCheckBox input2;
     private final JCheckBox output;
-    //private final Image image;
+    private final Image image;
 
     public GateView(Gate gate) {
 
@@ -45,9 +46,9 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         add(output, 85, 311, 120, 25);
 
         // Usamos esse carregamento nos Desafios, vocês lembram?
-        //String name = gate.toString() + ".png";
-        //URL url = getClass().getClassLoader().getResource(name);
-        //image = getToolkit().getImage(url);
+        String name = gate.toString() + ".png";
+        URL url = getClass().getClassLoader().getResource(name);
+        image = getToolkit().getImage(url);
 
         // Toda componente Swing tem uma lista de observadores
         // que reagem quando algum evento de mouse acontece.
@@ -104,6 +105,19 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         // Não precisamos de uma reação específica à ação do mouse
         // sair do painel, mas o contrato com MouseListener obriga
         // esse método a existir, então simplesmente deixamos vazio.
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+
+        // Não podemos esquecer desta linha, pois não somos os
+        // únicos responsáveis por desenhar o painel, como era
+        // o caso nos Desafios. Agora é preciso desenhar também
+        // componentes internas, e isso é feito pela superclasse.
+        super.paintComponent(g);
+
+        // Desenha a imagem, passando sua posição e seu tamanho.
+        g.drawImage(image, 10, 80, 192, 80, this);
     }
 
 }

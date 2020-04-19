@@ -1,14 +1,11 @@
-package br.pro.hashi.ensino.desagil.aps.model;
+package br.pro.hashi.ensino.desagil.aps;
 
 import javax.swing.*;
 import java.util.LinkedList;
-import br.pro.hashi.ensino.desagil.aps.model.OrGate;
-import br.pro.hashi.ensino.desagil.aps.model.AndGate;
-import br.pro.hashi.ensino.desagil.aps.model.NandGate;
-import br.pro.hashi.ensino.desagil.aps.model.NotGate;
-import br.pro.hashi.ensino.desagil.aps.model.XorGate;
-import br.pro.hashi.ensino.desagil.aps.model.GateView;
-import br.pro.hashi.ensino.desagil.aps.model.View;
+
+import br.pro.hashi.ensino.desagil.aps.gates.*;
+import br.pro.hashi.ensino.desagil.aps.model.*;
+import br.pro.hashi.ensino.desagil.aps.view.View;
 
 public class APS {
     public static void main(String[] args){
