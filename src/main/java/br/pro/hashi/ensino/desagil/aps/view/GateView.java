@@ -1,6 +1,7 @@
 package br.pro.hashi.ensino.desagil.aps.view;
 
 import br.pro.hashi.ensino.desagil.aps.model.Gate;
+import br.pro.hashi.ensino.desagil.aps.model.Switch;
 import br.pro.hashi.ensino.desagil.aps.view.FixedPanel;
 
 import javax.swing.*;
@@ -18,6 +19,8 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private final JCheckBox input2;
     private final JCheckBox output;
     private final Image image;
+    private final Switch switch1;
+    private final Switch switch2;
 
     public GateView(Gate gate) {
 
@@ -27,28 +30,36 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         this.gate = gate;
 
-        input1 = new JCheckBox();
-        input2 = new JCheckBox();
-        output = new JCheckBox();
+        input1 = new JCheckBox("A");
+        input2 = new JCheckBox("B");
+        output = new JCheckBox("Q");
+        switch1 = new Switch();
+        switch2 = new Switch();
 
-        JLabel inputLabel = new JLabel("Entrada");
-        JLabel outputLabel = new JLabel("Saída");
+        output.setEnabled(false);
 
         // Não há mais a chamada de setLayout, pois ela agora
         // acontece no construtor da superclasse FixedPanel.
 
         // Como subclasse de FixedPanel, agora podemos definir a
         // posição e o tamanho de cada componente ao adicioná-la.
-        add(inputLabel, 10, 10, 75, 25);
-        add(input1, 10, 45, 75, 25);
-        add(input2, 85, 45, 150, 25);
-        add(outputLabel, 10, 311, 75, 25);
+        if (this.gate.getInputSize() > 1) {
+            add(input1, 10, 45, 75, 25);
+            add(input2, 85, 45, 150, 25);
+        } else {
+            add(input1, 10, 45, 75, 25);
+        }
+
         add(output, 85, 311, 120, 25);
 
         // Usamos esse carregamento nos Desafios, vocês lembram?
         String name = gate.toString() + ".png";
         URL url = getClass().getClassLoader().getResource(name);
         image = getToolkit().getImage(url);
+
+
+        input1.addActionListener(this::actionPerformed);
+        input2.addActionListener(this::actionPerformed);
 
         // Toda componente Swing tem uma lista de observadores
         // que reagem quando algum evento de mouse acontece.
@@ -63,7 +74,32 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     }
 
     private void update() {
+        output.setSelected(input1.isSelected());
+        if (this.gate.getInputSize() == 2) {
+            if (input1.isSelected()) {
+                switch1.turnOn();
+            } else {
+                switch1.turnOff();
+            }
+            if (input2.isSelected()) {
+                switch2.turnOn();
+            } else {
+                switch2.turnOff();
+            }
+            this.gate.connect(0, switch1);
+            this.gate.connect(1, switch2);
 
+            output.setSelected(this.gate.read());
+        } else {
+            if (input1.isSelected()) {
+                switch1.turnOn();
+            } else {
+                switch1.turnOff();
+            }
+            this.gate.connect(0, switch1);
+
+            output.setSelected(this.gate.read());
+        }
     }
 
     @Override
