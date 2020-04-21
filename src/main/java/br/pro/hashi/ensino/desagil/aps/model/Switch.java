@@ -1,11 +1,18 @@
 package br.pro.hashi.ensino.desagil.aps.model;
 
 public class Switch implements Emitter {
-    boolean state;
+    protected boolean state;
 
-    public void turnOn() {state = true;}
+    public void turnOn() {
+        state = true;
+    }
 
-    public void turnOff() {state = false;}
+    public void turnOff() {
+        state = false;
+    }
+
     @Override
-    public boolean read() {return state;}
+    public boolean read() {
+        return state;
+    }
 }

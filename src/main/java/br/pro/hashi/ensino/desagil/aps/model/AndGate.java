@@ -1,8 +1,4 @@
-package br.pro.hashi.ensino.desagil.aps.gates;
-
-import br.pro.hashi.ensino.desagil.aps.gates.NandGate;
-import br.pro.hashi.ensino.desagil.aps.model.Emitter;
-import br.pro.hashi.ensino.desagil.aps.model.Gate;
+package br.pro.hashi.ensino.desagil.aps.model;
 
 public class AndGate extends Gate {
     private final NandGate nand1, nand2;
@@ -13,8 +9,11 @@ public class AndGate extends Gate {
         nand1 = new NandGate();
         nand2 = new NandGate();
     }
+
     @Override
-    public boolean read() { return nand2.read(); }
+    public boolean read() {
+        return nand2.read();
+    }
 
     @Override
     public void connect(int inputIndex, Emitter emitter) {

@@ -1,8 +1,4 @@
-package br.pro.hashi.ensino.desagil.aps.gates;
-
-import br.pro.hashi.ensino.desagil.aps.gates.NandGate;
-import br.pro.hashi.ensino.desagil.aps.model.Emitter;
-import br.pro.hashi.ensino.desagil.aps.model.Gate;
+package br.pro.hashi.ensino.desagil.aps.model;
 
 public class XorGate extends Gate {
     private final NandGate nand1, nand2, nand3, nand4;
@@ -10,11 +6,12 @@ public class XorGate extends Gate {
     public XorGate() {
         super("XOR", 2);
 
-        nand1  = new NandGate();
-        nand2  = new NandGate();
-        nand3  = new NandGate();
-        nand4  = new NandGate();
+        nand1 = new NandGate();
+        nand2 = new NandGate();
+        nand3 = new NandGate();
+        nand4 = new NandGate();
     }
+
     @Override
     public boolean read() {
         return nand4.read();

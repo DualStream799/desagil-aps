@@ -1,8 +1,4 @@
-package br.pro.hashi.ensino.desagil.aps.gates;
-
-import br.pro.hashi.ensino.desagil.aps.gates.NandGate;
-import br.pro.hashi.ensino.desagil.aps.model.Emitter;
-import br.pro.hashi.ensino.desagil.aps.model.Gate;
+package br.pro.hashi.ensino.desagil.aps.model;
 
 public class NotGate extends Gate {
     private final NandGate nand;

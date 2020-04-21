@@ -1,8 +1,8 @@
 package br.pro.hashi.ensino.desagil.aps.view;
 
 import br.pro.hashi.ensino.desagil.aps.model.Gate;
+import br.pro.hashi.ensino.desagil.aps.model.Light;
 import br.pro.hashi.ensino.desagil.aps.model.Switch;
-import br.pro.hashi.ensino.desagil.aps.view.FixedPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,31 +12,33 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 
-public class GateView extends FixedPanel implements ActionListener, MouseListener{
+public class GateView extends FixedPanel implements ActionListener, MouseListener {
     private final Gate gate;
 
     private final JCheckBox input1;
     private final JCheckBox input2;
-    private final JCheckBox output;
     private final Image image;
     private final Switch switch1;
     private final Switch switch2;
+    private final Light output;
+    // Novos atributos necessários para esta versão da interface.
+    private Color color;
 
     public GateView(Gate gate) {
 
         // Como subclasse de FixedPanel, esta classe agora
         // exige que uma largura e uma altura sejam fixadas.
-        super(245, 346);
+        super(245, 110);
 
         this.gate = gate;
 
-        input1 = new JCheckBox("A");
-        input2 = new JCheckBox("B");
-        output = new JCheckBox("Q");
+        input1 = new JCheckBox();
+        input2 = new JCheckBox();
         switch1 = new Switch();
         switch2 = new Switch();
+        output = new Light(255, 0, 0);
+        JLabel img_credit = new JLabel("Images by Wikipedia");
 
-        output.setEnabled(false);
 
         // Não há mais a chamada de setLayout, pois ela agora
         // acontece no construtor da superclasse FixedPanel.
@@ -44,23 +46,23 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         // Como subclasse de FixedPanel, agora podemos definir a
         // posição e o tamanho de cada componente ao adicioná-la.
         if (this.gate.getInputSize() > 1) {
-            add(input1, 10, 45, 75, 25);
-            add(input2, 85, 45, 150, 25);
+            add(input1, 12, 10, 25, 25);
+            add(input2, 12, 45, 25, 25);
         } else {
-            add(input1, 10, 45, 75, 25);
+            add(input1, 12, 27, 25, 25);
         }
+        add(img_credit, 30, 85, 170, 15);
 
-        add(output, 85, 311, 120, 25);
+        // Inicializamos o atributo de cor simplesmente como preto.
+        color = Color.BLACK;
 
         // Usamos esse carregamento nos Desafios, vocês lembram?
         String name = gate.toString() + ".png";
         URL url = getClass().getClassLoader().getResource(name);
         image = getToolkit().getImage(url);
 
-
-        input1.addActionListener(this::actionPerformed);
-        input2.addActionListener(this::actionPerformed);
-
+        input1.addActionListener(this);
+        input2.addActionListener(this);
         // Toda componente Swing tem uma lista de observadores
         // que reagem quando algum evento de mouse acontece.
         // Usamos o método addMouseListener para adicionar a
@@ -74,7 +76,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     }
 
     private void update() {
-        output.setSelected(input1.isSelected());
+        output.connect(0, this.gate);
         if (this.gate.getInputSize() == 2) {
             if (input1.isSelected()) {
                 switch1.turnOn();
@@ -89,7 +91,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
             this.gate.connect(0, switch1);
             this.gate.connect(1, switch2);
 
-            output.setSelected(this.gate.read());
         } else {
             if (input1.isSelected()) {
                 switch1.turnOn();
@@ -97,9 +98,8 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
                 switch1.turnOff();
             }
             this.gate.connect(0, switch1);
-
-            output.setSelected(this.gate.read());
         }
+        repaint();
     }
 
     @Override
@@ -113,6 +113,16 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         // Descobre em qual posição o clique ocorreu.
         int x = event.getX();
         int y = event.getY();
+
+        // Se o clique foi dentro do quadrado colorido...
+        if (x >= 185 && x < 200 && y >= 32 && y < 47) {
+
+            // ...então abrimos a janela seletora de cor...
+            color = JColorChooser.showDialog(this, null, color);
+            output.setColor(color);
+            // ...e chamamos repaint para atualizar a tela.
+            repaint();
+        }
     }
 
     @Override
@@ -153,7 +163,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         super.paintComponent(g);
 
         // Desenha a imagem, passando sua posição e seu tamanho.
-        g.drawImage(image, 10, 80, 192, 80, this);
+        g.drawImage(image, 10, 0, 192, 80, this);
+
+        // Desenha um quadrado cheio.
+        g.setColor(output.getColor());
+        g.fillOval(180, 27, 25, 25);
     }
 
 }

@@ -52,6 +52,7 @@ public class View extends JPanel implements ActionListener {
         // adicionamos o "implements ActionListener" lá em cima.
         menu.addActionListener(this);
     }
+
     // Este método é responsável por adicionar a este JPanel a
     // representação gráfica da calculadora identificada por
     // um índice. Isso consiste em três passos simples.
@@ -65,6 +66,7 @@ public class View extends JPanel implements ActionListener {
         // 3. Adicionar essa representação gráfica no JPanel.
         add(gateView);
     }
+
     // O que esta componente deve fazer quando o usuário
     // selecionar um item no menu? Bem, ela deve...
     @Override

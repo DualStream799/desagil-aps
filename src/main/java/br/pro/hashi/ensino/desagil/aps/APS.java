@@ -1,14 +1,13 @@
 package br.pro.hashi.ensino.desagil.aps;
 
-import javax.swing.*;
-import java.util.LinkedList;
-
-import br.pro.hashi.ensino.desagil.aps.gates.*;
 import br.pro.hashi.ensino.desagil.aps.model.*;
 import br.pro.hashi.ensino.desagil.aps.view.View;
 
+import javax.swing.*;
+import java.util.LinkedList;
+
 public class APS {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         LinkedList<Gate> model = new LinkedList<>();
 
         model.add(new AndGate());
